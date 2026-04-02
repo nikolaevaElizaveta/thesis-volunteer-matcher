@@ -2,6 +2,8 @@
 
 You need **4 things running**: PostgreSQL, matcher (Python), backend (NestJS), frontend (Next.js).
 
+For stack overview, constraints, algorithms, and Docker quick start, see **README.md**.
+
 ## 0. One-time setup
 
 **Python matcher**
@@ -113,7 +115,7 @@ Entities `TaskEntity` / `OfferEntity` include a **generated** `geography(Point,4
 
 **Local Postgres without PostGIS:** install it (e.g. `brew install postgis`) or point `backend/.env` at the Compose DB (`DATABASE_URL=postgresql://postgres:postgres@localhost:5432/volunteer_matcher`) and run the migration there.
 
-### Optional: auto-fill demo tasks & offers (dev)
+### Optional: auto-fill demo users, tasks & offers (dev)
 
 In `backend/.env` add:
 
@@ -121,13 +123,16 @@ In `backend/.env` add:
 SEED=true
 ```
 
-On backend startup, if **both** tables are **empty**, Nest loads `backend/src/seed/dev-seed.json` (2 demo tasks + 2 demo offers).  
-If there is already any row, seed is **skipped** (restart-safe).  
-To re-seed: clear tasks/offers in DB (or `docker compose down -v`), then start again with `SEED=true`.
+Flow on startup when **`SEED=true`**:
 
-Demo tasks use `owner_name: "Demo Shelter"` — log in as shelter with that **exact** name to see them under “My Tasks”.
+1. If the **`users`** table is empty, the backend creates demo accounts (password **`demo123`** for all): **`coordinator`**, **`demo_shelter`**, **`demo_volunteer_alex`**, **`demo_volunteer_sam`**, plus extra **`seed_shelter_XX`** / **`seed_volunteer_XX`** rows for a larger pool (see server log for counts).
+2. If **both** **`tasks`** and **`offers`** are empty, it loads `backend/src/seed/dev-seed.json` and then **augments** it with **generated** tasks/offers tied to those seeded users (so you get far more than the small base JSON).
 
-For Docker, set `SEED=true` in the root `.env` (compose passes it to the backend).
+If either tasks or offers already has data, JSON + generated task/offer seed is **skipped** (restart-safe). To re-seed: truncate those tables (and users if you want a full reset) or use `docker compose down -v` for a fresh DB.
+
+Demo rows from JSON often use `owner_name: "Demo Shelter"` — log in as that shelter to see them under “My Tasks”.
+
+For Docker, set `SEED=true` in the **repo root** `.env` (Compose passes it to the backend).
 
 ---
 
@@ -142,6 +147,8 @@ The UI uses **username + password** against `POST /auth/login`. After **`SEED=tr
 | `demo_volunteer_alex` | `demo123` | volunteer |
 | `demo_volunteer_sam` | `demo123` | volunteer |
 
+Additional **`seed_shelter_XX`** / **`seed_volunteer_XX`** users (same password) are created for a larger demo pool — counts are logged at startup.
+
 Set **`JWT_SECRET`** (≥8 chars) in `backend/.env` for production builds; local **`NODE_ENV=development`** uses a built-in dev secret if unset. Docker Compose sets a default `JWT_SECRET`.
 
 Shelters/volunteers can register in the UI at **http://localhost:3001/register** or via **`POST /auth/register`** in Swagger. Coordinators are **not** self-registered.
@@ -151,11 +158,11 @@ Shelters/volunteers can register in the UI at **http://localhost:3001/register**
 ## 1. Every day — 4 terminals
 
 **Terminal 1 — PostgreSQL**  
-If it’s not already a system service:
+If it’s not already a system service, start the **same major version you configured** (for Homebrew + PostGIS, prefer **`postgresql@17`** — see checklist above; avoid `@16` unless you use Docker-only Postgres for this project).
 
 ```bash
-# macOS Homebrew example:
-brew services start postgresql@16
+# macOS Homebrew example (align with your install):
+brew services start postgresql@17
 ```
 
 **Terminal 2 — Matcher (port 8000)**
