@@ -1,0 +1,31 @@
+{
+  "tasks": [
+    {
+      "id": "task1",
+      "location": { "lat": 59.7, "lon": 30.6 },
+      "required_skills": ["medicine"],
+      "time_window": { "start": "2026-02-07T09:00:00", "end": "2026-02-07T11:00:00" }
+    }
+  ],
+  "offers": [
+    {
+      "id": "vol1",
+      "location": { "lat": 59.61, "lon": 30.61 },
+      "skills": ["logistics"],
+      "availability": [
+        { "start": "2026-02-07T09:00:00", "end": "2026-02-07T11:00:00" }
+      ],
+      "max_distance_km": 8
+    },
+    {
+      "id": "vol2",
+      "location": { "lat": 59.71, "lon": 30.61 },
+      "skills": ["medicine"],
+      "availability": [
+        { "start": "2026-02-07T12:00:00", "end": "2026-02-07T13:00:00" }
+      ],
+      "max_distance_km": 8
+    }
+  ],
+  "algorithm": "greedy"
+}

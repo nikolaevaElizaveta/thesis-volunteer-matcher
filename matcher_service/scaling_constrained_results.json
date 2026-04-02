@@ -1,0 +1,79 @@
+{
+  "experiment": "scaling_constrained",
+  "seed": 42,
+  "runs_per_size": 5,
+  "sizes": [
+    {
+      "tasks": 50,
+      "offers": 30,
+      "greedy": {
+        "match_count": 30.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 166.7337,
+        "avg_distance_km": 5.5578,
+        "time_ms_avg": 4.786
+      },
+      "hungarian": {
+        "match_count": 30.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 103.8978,
+        "avg_distance_km": 3.4633,
+        "time_ms_avg": 3.926
+      }
+    },
+    {
+      "tasks": 100,
+      "offers": 60,
+      "greedy": {
+        "match_count": 57.0,
+        "task_coverage_pct": 57.0,
+        "total_distance_km": 353.466,
+        "avg_distance_km": 6.2012,
+        "time_ms_avg": 4.728
+      },
+      "hungarian": {
+        "match_count": 60.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 156.0096,
+        "avg_distance_km": 2.6002,
+        "time_ms_avg": 7.688
+      }
+    },
+    {
+      "tasks": 200,
+      "offers": 120,
+      "greedy": {
+        "match_count": 117.0,
+        "task_coverage_pct": 58.5,
+        "total_distance_km": 617.939,
+        "avg_distance_km": 5.2815,
+        "time_ms_avg": 10.396
+      },
+      "hungarian": {
+        "match_count": 120.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 250.1408,
+        "avg_distance_km": 2.0845,
+        "time_ms_avg": 22.05
+      }
+    },
+    {
+      "tasks": 400,
+      "offers": 240,
+      "greedy": {
+        "match_count": 237.0,
+        "task_coverage_pct": 59.25,
+        "total_distance_km": 962.126,
+        "avg_distance_km": 4.0596,
+        "time_ms_avg": 30.852
+      },
+      "hungarian": {
+        "match_count": 240.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 334.2589,
+        "avg_distance_km": 1.3927,
+        "time_ms_avg": 73.596
+      }
+    }
+  ]
+}

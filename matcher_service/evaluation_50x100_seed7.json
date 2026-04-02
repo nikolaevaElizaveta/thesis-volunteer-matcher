@@ -1,0 +1,107 @@
+{
+  "source": "synthetic (tasks=50, offers=100, seed=7)",
+  "total_tasks": 50,
+  "total_offers": 100,
+  "seed": 7,
+  "runs": 3,
+  "summaries": [
+    {
+      "algorithm": "greedy",
+      "runs": 3,
+      "total_tasks": 50,
+      "total_offers": 100,
+      "match_count_avg": 50.0,
+      "task_coverage_pct_avg": 100.0,
+      "total_distance_km_avg": 143.3371,
+      "avg_distance_km_avg": 2.8667,
+      "time_ms_avg": 8.0833,
+      "time_ms_min": 6.17,
+      "time_ms_max": 11.63
+    },
+    {
+      "algorithm": "hungarian",
+      "runs": 3,
+      "total_tasks": 50,
+      "total_offers": 100,
+      "match_count_avg": 50.0,
+      "task_coverage_pct_avg": 100.0,
+      "total_distance_km_avg": 128.7777,
+      "avg_distance_km_avg": 2.5756,
+      "time_ms_avg": 7.05,
+      "time_ms_min": 6.88,
+      "time_ms_max": 7.36
+    }
+  ],
+  "raw_runs": {
+    "greedy": [
+      {
+        "algorithm": "greedy",
+        "total_tasks": 50,
+        "total_offers": 100,
+        "match_count": 50,
+        "task_coverage_pct": 100.0,
+        "total_distance_km": 143.3371,
+        "avg_distance_km": 2.8667,
+        "time_ms": 11.63,
+        "run": 0
+      },
+      {
+        "algorithm": "greedy",
+        "total_tasks": 50,
+        "total_offers": 100,
+        "match_count": 50,
+        "task_coverage_pct": 100.0,
+        "total_distance_km": 143.3371,
+        "avg_distance_km": 2.8667,
+        "time_ms": 6.45,
+        "run": 1
+      },
+      {
+        "algorithm": "greedy",
+        "total_tasks": 50,
+        "total_offers": 100,
+        "match_count": 50,
+        "task_coverage_pct": 100.0,
+        "total_distance_km": 143.3371,
+        "avg_distance_km": 2.8667,
+        "time_ms": 6.17,
+        "run": 2
+      }
+    ],
+    "hungarian": [
+      {
+        "algorithm": "hungarian",
+        "total_tasks": 50,
+        "total_offers": 100,
+        "match_count": 50,
+        "task_coverage_pct": 100.0,
+        "total_distance_km": 128.7777,
+        "avg_distance_km": 2.5756,
+        "time_ms": 7.36,
+        "run": 0
+      },
+      {
+        "algorithm": "hungarian",
+        "total_tasks": 50,
+        "total_offers": 100,
+        "match_count": 50,
+        "task_coverage_pct": 100.0,
+        "total_distance_km": 128.7777,
+        "avg_distance_km": 2.5756,
+        "time_ms": 6.88,
+        "run": 1
+      },
+      {
+        "algorithm": "hungarian",
+        "total_tasks": 50,
+        "total_offers": 100,
+        "match_count": 50,
+        "task_coverage_pct": 100.0,
+        "total_distance_km": 128.7777,
+        "avg_distance_km": 2.5756,
+        "time_ms": 6.91,
+        "run": 2
+      }
+    ]
+  }
+}

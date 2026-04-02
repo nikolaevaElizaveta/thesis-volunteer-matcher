@@ -1,0 +1,54 @@
+{
+  "tasks": [
+    {
+      "location": { "lat": 55.7943, "lon": 49.1214 },
+      "address": "Kazan — community kitchen, Vakhitovsky district (demo)",
+      "required_skills": ["food", "logistics"],
+      "time_window": {
+        "start": "2026-06-15T09:00:00.000Z",
+        "end": "2026-06-15T13:00:00.000Z"
+      },
+      "description": "Demo: food distribution shift",
+      "owner_name": "Demo Shelter"
+    },
+    {
+      "location": { "lat": 55.782, "lon": 49.105 },
+      "address": "Kazan — first aid point near Kremlin embankment (demo)",
+      "required_skills": ["first_aid"],
+      "time_window": {
+        "start": "2026-06-16T10:00:00.000Z",
+        "end": "2026-06-16T16:00:00.000Z"
+      },
+      "description": "Demo: first aid stand",
+      "owner_name": "Demo Shelter"
+    }
+  ],
+  "offers": [
+    {
+      "location": { "lat": 55.79, "lon": 49.11 },
+      "address": "Kazan — home base, central area (demo)",
+      "skills": ["food", "logistics", "first_aid"],
+      "availability": [
+        {
+          "start": "2026-06-15T08:00:00.000Z",
+          "end": "2026-06-16T18:00:00.000Z"
+        }
+      ],
+      "max_distance_km": 30,
+      "description": "Demo Volunteer Alex"
+    },
+    {
+      "location": { "lat": 55.785, "lon": 49.115 },
+      "address": "Kazan — Novo-Savinovsky district (demo)",
+      "skills": ["food", "water"],
+      "availability": [
+        {
+          "start": "2026-06-15T07:00:00.000Z",
+          "end": "2026-06-15T20:00:00.000Z"
+        }
+      ],
+      "max_distance_km": 15,
+      "description": "Demo Volunteer Sam"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "experiment": "scaling_constrained",
+  "seed": 42,
+  "runs_per_size": 5,
+  "sizes": [
+    {
+      "tasks": 50,
+      "offers": 30,
+      "greedy": {
+        "match_count": 30.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 166.7337,
+        "max_distance_km": 11.334,
+        "avg_distance_km": 5.5578,
+        "time_ms_avg": 2.972
+      },
+      "hungarian": {
+        "match_count": 30.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 103.8978,
+        "max_distance_km": 7.9678,
+        "avg_distance_km": 3.4633,
+        "time_ms_avg": 3.632
+      },
+      "max_coverage": {
+        "match_count": 30.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 103.8978,
+        "max_distance_km": 7.9678,
+        "avg_distance_km": 3.4633,
+        "time_ms_avg": 3.798
+      },
+      "bottleneck": {
+        "match_count": 30.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 143.2966,
+        "max_distance_km": 7.9678,
+        "avg_distance_km": 4.7766,
+        "time_ms_avg": 4.232
+      }
+    },
+    {
+      "tasks": 100,
+      "offers": 60,
+      "greedy": {
+        "match_count": 57.0,
+        "task_coverage_pct": 57.0,
+        "total_distance_km": 353.466,
+        "max_distance_km": 14.8354,
+        "avg_distance_km": 6.2012,
+        "time_ms_avg": 4.61
+      },
+      "hungarian": {
+        "match_count": 60.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 156.0096,
+        "max_distance_km": 7.9664,
+        "avg_distance_km": 2.6002,
+        "time_ms_avg": 8.592
+      },
+      "max_coverage": {
+        "match_count": 60.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 156.0096,
+        "max_distance_km": 7.9664,
+        "avg_distance_km": 2.6002,
+        "time_ms_avg": 15.118
+      },
+      "bottleneck": {
+        "match_count": 60.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 285.6262,
+        "max_distance_km": 7.3476,
+        "avg_distance_km": 4.7604,
+        "time_ms_avg": 13.034
+      }
+    },
+    {
+      "tasks": 200,
+      "offers": 120,
+      "greedy": {
+        "match_count": 117.0,
+        "task_coverage_pct": 58.5,
+        "total_distance_km": 617.939,
+        "max_distance_km": 14.9018,
+        "avg_distance_km": 5.2815,
+        "time_ms_avg": 11.41
+      },
+      "hungarian": {
+        "match_count": 120.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 250.1408,
+        "max_distance_km": 6.2383,
+        "avg_distance_km": 2.0845,
+        "time_ms_avg": 26.748
+      },
+      "max_coverage": {
+        "match_count": 120.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 250.1408,
+        "max_distance_km": 6.2383,
+        "avg_distance_km": 2.0845,
+        "time_ms_avg": 28.828
+      },
+      "bottleneck": {
+        "match_count": 120.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 472.7191,
+        "max_distance_km": 6.093,
+        "avg_distance_km": 3.9393,
+        "time_ms_avg": 55.256
+      }
+    },
+    {
+      "tasks": 400,
+      "offers": 240,
+      "greedy": {
+        "match_count": 237.0,
+        "task_coverage_pct": 59.25,
+        "total_distance_km": 962.126,
+        "max_distance_km": 14.9051,
+        "avg_distance_km": 4.0596,
+        "time_ms_avg": 36.068
+      },
+      "hungarian": {
+        "match_count": 240.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 334.2589,
+        "max_distance_km": 5.0926,
+        "avg_distance_km": 1.3927,
+        "time_ms_avg": 99.526
+      },
+      "max_coverage": {
+        "match_count": 240.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 334.2589,
+        "max_distance_km": 5.0926,
+        "avg_distance_km": 1.3927,
+        "time_ms_avg": 113.272
+      },
+      "bottleneck": {
+        "match_count": 240.0,
+        "task_coverage_pct": 60.0,
+        "total_distance_km": 786.7459,
+        "max_distance_km": 5.0832,
+        "avg_distance_km": 3.2781,
+        "time_ms_avg": 303.512
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+venv
+.git
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+**/.next
+**/dist
+*.md
+dissertation_progress

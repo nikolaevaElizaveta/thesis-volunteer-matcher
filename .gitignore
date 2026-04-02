@@ -1,0 +1,46 @@
+# Secrets and local env (never commit)
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies & build outputs (if ever at repo root)
+node_modules/
+dist/
+.next/
+out/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Local venv
+venv/
+.venv/
+.venv*/
+
+# IDE / editor
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.swo
+
+# Coverage / test artifacts
+coverage/
+.nyc_output/
+
+# Local notes/progress
+dissertation_progress/
+
+# Benchmark outputs (large JSON exports)
+matcher_service/results/

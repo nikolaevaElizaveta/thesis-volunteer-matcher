@@ -1,0 +1,1358 @@
+{
+  "tasks": [
+    {
+      "id": "task_0",
+      "location": {
+        "lat": 59.9779,
+        "lon": 30.16
+      },
+      "required_skills": [
+        "logistics",
+        "food"
+      ],
+      "time_window": {
+        "start": "2026-02-10T09:13:47",
+        "end": "2026-02-10T11:47:17"
+      }
+    },
+    {
+      "id": "task_1",
+      "location": {
+        "lat": 59.9981,
+        "lon": 30.3681
+      },
+      "required_skills": [
+        "medical",
+        "food"
+      ],
+      "time_window": {
+        "start": "2026-02-10T10:47:30",
+        "end": "2026-02-10T13:10:00"
+      }
+    },
+    {
+      "id": "task_2",
+      "location": {
+        "lat": 59.9704,
+        "lon": 30.3745
+      },
+      "required_skills": [
+        "logistics",
+        "water"
+      ],
+      "time_window": {
+        "start": "2026-02-10T17:42:47",
+        "end": "2026-02-10T22:04:12"
+      }
+    },
+    {
+      "id": "task_3",
+      "location": {
+        "lat": 59.8513,
+        "lon": 30.4723
+      },
+      "required_skills": [
+        "first_aid",
+        "food"
+      ],
+      "time_window": {
+        "start": "2026-02-10T19:29:11",
+        "end": "2026-02-10T22:06:30"
+      }
+    },
+    {
+      "id": "task_4",
+      "location": {
+        "lat": 59.9173,
+        "lon": 30.1871
+      },
+      "required_skills": [
+        "first_aid"
+      ],
+      "time_window": {
+        "start": "2026-02-10T15:14:40",
+        "end": "2026-02-10T20:38:04"
+      }
+    },
+    {
+      "id": "task_5",
+      "location": {
+        "lat": 60.0114,
+        "lon": 30.4419
+      },
+      "required_skills": [
+        "water"
+      ],
+      "time_window": {
+        "start": "2026-02-10T11:31:05",
+        "end": "2026-02-10T13:50:00"
+      }
+    },
+    {
+      "id": "task_6",
+      "location": {
+        "lat": 59.9757,
+        "lon": 30.5042
+      },
+      "required_skills": [
+        "shelter",
+        "logistics"
+      ],
+      "time_window": {
+        "start": "2026-02-10T08:32:59",
+        "end": "2026-02-10T13:22:05"
+      }
+    },
+    {
+      "id": "task_7",
+      "location": {
+        "lat": 59.8956,
+        "lon": 30.2658
+      },
+      "required_skills": [
+        "logistics"
+      ],
+      "time_window": {
+        "start": "2026-02-10T12:33:41",
+        "end": "2026-02-10T18:01:38"
+      }
+    },
+    {
+      "id": "task_8",
+      "location": {
+        "lat": 59.9407,
+        "lon": 30.4836
+      },
+      "required_skills": [
+        "first_aid"
+      ],
+      "time_window": {
+        "start": "2026-02-10T16:02:31",
+        "end": "2026-02-10T19:27:47"
+      }
+    },
+    {
+      "id": "task_9",
+      "location": {
+        "lat": 59.9904,
+        "lon": 30.4234
+      },
+      "required_skills": [
+        "shelter"
+      ],
+      "time_window": {
+        "start": "2026-02-10T14:24:34",
+        "end": "2026-02-10T18:56:58"
+      }
+    },
+    {
+      "id": "task_10",
+      "location": {
+        "lat": 59.899,
+        "lon": 30.3349
+      },
+      "required_skills": [
+        "food",
+        "shelter"
+      ],
+      "time_window": {
+        "start": "2026-02-10T11:53:29",
+        "end": "2026-02-10T14:46:11"
+      }
+    },
+    {
+      "id": "task_11",
+      "location": {
+        "lat": 60.0037,
+        "lon": 30.1724
+      },
+      "required_skills": [
+        "first_aid"
+      ],
+      "time_window": {
+        "start": "2026-02-10T08:47:39",
+        "end": "2026-02-10T12:23:56"
+      }
+    },
+    {
+      "id": "task_12",
+      "location": {
+        "lat": 60.0326,
+        "lon": 30.3769
+      },
+      "required_skills": [
+        "logistics",
+        "water"
+      ],
+      "time_window": {
+        "start": "2026-02-10T18:58:28",
+        "end": "2026-02-10T22:33:25"
+      }
+    },
+    {
+      "id": "task_13",
+      "location": {
+        "lat": 59.9418,
+        "lon": 30.256
+      },
+      "required_skills": [
+        "food"
+      ],
+      "time_window": {
+        "start": "2026-02-10T11:09:10",
+        "end": "2026-02-10T15:23:54"
+      }
+    },
+    {
+      "id": "task_14",
+      "location": {
+        "lat": 59.9669,
+        "lon": 30.5091
+      },
+      "required_skills": [
+        "first_aid",
+        "logistics"
+      ],
+      "time_window": {
+        "start": "2026-02-10T09:39:35",
+        "end": "2026-02-10T15:38:57"
+      }
+    },
+    {
+      "id": "task_15",
+      "location": {
+        "lat": 59.9487,
+        "lon": 30.4523
+      },
+      "required_skills": [
+        "logistics"
+      ],
+      "time_window": {
+        "start": "2026-02-10T17:30:17",
+        "end": "2026-02-10T22:00:53"
+      }
+    },
+    {
+      "id": "task_16",
+      "location": {
+        "lat": 59.9344,
+        "lon": 30.1754
+      },
+      "required_skills": [
+        "shelter",
+        "water"
+      ],
+      "time_window": {
+        "start": "2026-02-10T19:39:10",
+        "end": "2026-02-10T23:46:09"
+      }
+    },
+    {
+      "id": "task_17",
+      "location": {
+        "lat": 60.0222,
+        "lon": 30.1546
+      },
+      "required_skills": [
+        "food"
+      ],
+      "time_window": {
+        "start": "2026-02-10T17:00:37",
+        "end": "2026-02-10T22:32:58"
+      }
+    },
+    {
+      "id": "task_18",
+      "location": {
+        "lat": 60.0037,
+        "lon": 30.2861
+      },
+      "required_skills": [
+        "water",
+        "logistics"
+      ],
+      "time_window": {
+        "start": "2026-02-10T19:26:44",
+        "end": "2026-02-10T23:15:38"
+      }
+    },
+    {
+      "id": "task_19",
+      "location": {
+        "lat": 60.0252,
+        "lon": 30.2554
+      },
+      "required_skills": [
+        "shelter"
+      ],
+      "time_window": {
+        "start": "2026-02-10T18:26:46",
+        "end": "2026-02-11T00:05:48"
+      }
+    }
+  ],
+  "offers": [
+    {
+      "id": "vol_0",
+      "location": {
+        "lat": 60.0419,
+        "lon": 30.298
+      },
+      "skills": [
+        "medical",
+        "water",
+        "shelter",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T17:09:07",
+          "end": "2026-02-10T21:34:57"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_1",
+      "location": {
+        "lat": 59.9749,
+        "lon": 30.5288
+      },
+      "skills": [
+        "water",
+        "logistics",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T14:55:09",
+          "end": "2026-02-10T20:29:23"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_2",
+      "location": {
+        "lat": 59.8691,
+        "lon": 30.355
+      },
+      "skills": [
+        "logistics",
+        "water",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T12:30:37",
+          "end": "2026-02-10T19:36:41"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_3",
+      "location": {
+        "lat": 59.8622,
+        "lon": 30.5268
+      },
+      "skills": [
+        "first_aid",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:35:13",
+          "end": "2026-02-10T13:28:17"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_4",
+      "location": {
+        "lat": 60.0211,
+        "lon": 30.3838
+      },
+      "skills": [
+        "food",
+        "medical",
+        "shelter",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T09:14:11",
+          "end": "2026-02-10T14:50:51"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_5",
+      "location": {
+        "lat": 59.9902,
+        "lon": 30.2167
+      },
+      "skills": [
+        "first_aid",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T18:47:13",
+          "end": "2026-02-11T01:43:17"
+        },
+        {
+          "start": "2026-02-10T14:20:48",
+          "end": "2026-02-10T19:00:11"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_6",
+      "location": {
+        "lat": 59.9604,
+        "lon": 30.1953
+      },
+      "skills": [
+        "food",
+        "first_aid",
+        "water"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T10:13:55",
+          "end": "2026-02-10T15:04:20"
+        },
+        {
+          "start": "2026-02-10T19:37:48",
+          "end": "2026-02-11T01:39:08"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_7",
+      "location": {
+        "lat": 60.0047,
+        "lon": 30.2932
+      },
+      "skills": [
+        "medical",
+        "logistics",
+        "first_aid",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T12:58:44",
+          "end": "2026-02-10T18:20:39"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_8",
+      "location": {
+        "lat": 60.0453,
+        "lon": 30.1997
+      },
+      "skills": [
+        "medical",
+        "first_aid",
+        "food",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:27:20",
+          "end": "2026-02-10T13:40:15"
+        },
+        {
+          "start": "2026-02-10T18:50:32",
+          "end": "2026-02-10T21:51:17"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_9",
+      "location": {
+        "lat": 60.04,
+        "lon": 30.1849
+      },
+      "skills": [
+        "medical",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T17:03:03",
+          "end": "2026-02-10T21:20:44"
+        },
+        {
+          "start": "2026-02-10T12:04:48",
+          "end": "2026-02-10T17:21:40"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_10",
+      "location": {
+        "lat": 59.9317,
+        "lon": 30.4702
+      },
+      "skills": [
+        "first_aid",
+        "medical",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T19:13:20",
+          "end": "2026-02-10T23:11:32"
+        },
+        {
+          "start": "2026-02-10T15:07:51",
+          "end": "2026-02-10T20:08:53"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_11",
+      "location": {
+        "lat": 59.9975,
+        "lon": 30.1704
+      },
+      "skills": [
+        "first_aid",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T10:15:10",
+          "end": "2026-02-10T17:10:09"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_12",
+      "location": {
+        "lat": 59.895,
+        "lon": 30.3333
+      },
+      "skills": [
+        "medical",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T10:35:53",
+          "end": "2026-02-10T14:32:13"
+        },
+        {
+          "start": "2026-02-10T19:52:30",
+          "end": "2026-02-11T00:47:38"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_13",
+      "location": {
+        "lat": 59.9522,
+        "lon": 30.5159
+      },
+      "skills": [
+        "medical",
+        "shelter",
+        "first_aid",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T15:21:32",
+          "end": "2026-02-10T21:05:16"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_14",
+      "location": {
+        "lat": 59.8809,
+        "lon": 30.1524
+      },
+      "skills": [
+        "logistics",
+        "medical",
+        "water",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T17:10:14",
+          "end": "2026-02-10T20:49:13"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_15",
+      "location": {
+        "lat": 59.9022,
+        "lon": 30.2035
+      },
+      "skills": [
+        "logistics",
+        "food",
+        "shelter",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:10:36",
+          "end": "2026-02-10T13:18:08"
+        },
+        {
+          "start": "2026-02-10T11:56:26",
+          "end": "2026-02-10T16:49:16"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_16",
+      "location": {
+        "lat": 60.0372,
+        "lon": 30.4849
+      },
+      "skills": [
+        "water",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T13:44:47",
+          "end": "2026-02-10T17:12:00"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_17",
+      "location": {
+        "lat": 59.8915,
+        "lon": 30.5382
+      },
+      "skills": [
+        "first_aid",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:07:11",
+          "end": "2026-02-10T12:43:11"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_18",
+      "location": {
+        "lat": 60.0004,
+        "lon": 30.3694
+      },
+      "skills": [
+        "shelter",
+        "water",
+        "food",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T13:46:16",
+          "end": "2026-02-10T18:15:59"
+        },
+        {
+          "start": "2026-02-10T18:56:48",
+          "end": "2026-02-11T00:10:01"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_19",
+      "location": {
+        "lat": 59.9778,
+        "lon": 30.4778
+      },
+      "skills": [
+        "food",
+        "medical",
+        "shelter",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T19:10:06",
+          "end": "2026-02-10T23:14:13"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_20",
+      "location": {
+        "lat": 59.8963,
+        "lon": 30.5441
+      },
+      "skills": [
+        "food",
+        "shelter",
+        "medical",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T18:43:19",
+          "end": "2026-02-11T02:14:38"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_21",
+      "location": {
+        "lat": 59.9094,
+        "lon": 30.2867
+      },
+      "skills": [
+        "food",
+        "first_aid",
+        "water"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T13:32:41",
+          "end": "2026-02-10T18:58:29"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_22",
+      "location": {
+        "lat": 59.9166,
+        "lon": 30.1903
+      },
+      "skills": [
+        "food",
+        "water",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T11:51:22",
+          "end": "2026-02-10T15:25:43"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_23",
+      "location": {
+        "lat": 59.9103,
+        "lon": 30.3238
+      },
+      "skills": [
+        "first_aid",
+        "shelter",
+        "medical",
+        "water"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T10:31:44",
+          "end": "2026-02-10T17:42:34"
+        },
+        {
+          "start": "2026-02-10T10:11:09",
+          "end": "2026-02-10T17:08:32"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_24",
+      "location": {
+        "lat": 60.0377,
+        "lon": 30.3855
+      },
+      "skills": [
+        "food",
+        "logistics",
+        "first_aid",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T17:27:52",
+          "end": "2026-02-11T00:53:38"
+        },
+        {
+          "start": "2026-02-10T10:08:34",
+          "end": "2026-02-10T14:12:37"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_25",
+      "location": {
+        "lat": 60.0183,
+        "lon": 30.3562
+      },
+      "skills": [
+        "medical",
+        "water"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T10:14:05",
+          "end": "2026-02-10T17:48:12"
+        },
+        {
+          "start": "2026-02-10T18:34:47",
+          "end": "2026-02-10T22:51:12"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_26",
+      "location": {
+        "lat": 59.9536,
+        "lon": 30.1705
+      },
+      "skills": [
+        "water",
+        "food",
+        "shelter",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T19:49:56",
+          "end": "2026-02-11T01:20:16"
+        },
+        {
+          "start": "2026-02-10T14:50:58",
+          "end": "2026-02-10T18:19:40"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_27",
+      "location": {
+        "lat": 59.9463,
+        "lon": 30.1805
+      },
+      "skills": [
+        "food",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T16:36:40",
+          "end": "2026-02-10T19:39:21"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_28",
+      "location": {
+        "lat": 60.0401,
+        "lon": 30.2935
+      },
+      "skills": [
+        "first_aid",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T16:10:11",
+          "end": "2026-02-10T22:39:53"
+        },
+        {
+          "start": "2026-02-10T13:45:13",
+          "end": "2026-02-10T19:28:22"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_29",
+      "location": {
+        "lat": 59.9143,
+        "lon": 30.159
+      },
+      "skills": [
+        "logistics",
+        "first_aid",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T14:40:27",
+          "end": "2026-02-10T18:07:01"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_30",
+      "location": {
+        "lat": 59.8709,
+        "lon": 30.2305
+      },
+      "skills": [
+        "logistics",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:08:15",
+          "end": "2026-02-10T13:27:42"
+        },
+        {
+          "start": "2026-02-10T10:37:42",
+          "end": "2026-02-10T17:06:57"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_31",
+      "location": {
+        "lat": 60.0247,
+        "lon": 30.4173
+      },
+      "skills": [
+        "food",
+        "logistics",
+        "first_aid",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T09:19:52",
+          "end": "2026-02-10T12:31:40"
+        },
+        {
+          "start": "2026-02-10T08:52:00",
+          "end": "2026-02-10T13:23:15"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_32",
+      "location": {
+        "lat": 60.0099,
+        "lon": 30.3142
+      },
+      "skills": [
+        "food",
+        "water",
+        "first_aid",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T17:29:42",
+          "end": "2026-02-10T23:32:06"
+        },
+        {
+          "start": "2026-02-10T11:51:13",
+          "end": "2026-02-10T17:58:47"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_33",
+      "location": {
+        "lat": 59.947,
+        "lon": 30.1567
+      },
+      "skills": [
+        "water",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T10:26:51",
+          "end": "2026-02-10T16:24:03"
+        },
+        {
+          "start": "2026-02-10T17:59:37",
+          "end": "2026-02-10T23:10:40"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_34",
+      "location": {
+        "lat": 59.9388,
+        "lon": 30.3346
+      },
+      "skills": [
+        "medical",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T09:20:52",
+          "end": "2026-02-10T16:11:17"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_35",
+      "location": {
+        "lat": 59.8705,
+        "lon": 30.1844
+      },
+      "skills": [
+        "shelter",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T17:09:32",
+          "end": "2026-02-10T21:18:53"
+        },
+        {
+          "start": "2026-02-10T11:45:27",
+          "end": "2026-02-10T14:48:45"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_36",
+      "location": {
+        "lat": 59.8576,
+        "lon": 30.1757
+      },
+      "skills": [
+        "food",
+        "medical",
+        "water",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T18:25:56",
+          "end": "2026-02-11T00:42:38"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_37",
+      "location": {
+        "lat": 59.9142,
+        "lon": 30.2632
+      },
+      "skills": [
+        "shelter",
+        "medical",
+        "water"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T18:37:24",
+          "end": "2026-02-10T23:24:35"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_38",
+      "location": {
+        "lat": 59.854,
+        "lon": 30.2584
+      },
+      "skills": [
+        "first_aid",
+        "medical",
+        "food",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:07:28",
+          "end": "2026-02-10T11:16:05"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_39",
+      "location": {
+        "lat": 60.0009,
+        "lon": 30.1825
+      },
+      "skills": [
+        "food",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T19:16:20",
+          "end": "2026-02-10T22:26:03"
+        },
+        {
+          "start": "2026-02-10T17:23:30",
+          "end": "2026-02-10T22:22:48"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_40",
+      "location": {
+        "lat": 59.9397,
+        "lon": 30.5189
+      },
+      "skills": [
+        "first_aid",
+        "shelter",
+        "logistics"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T12:19:15",
+          "end": "2026-02-10T17:24:10"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_41",
+      "location": {
+        "lat": 59.8847,
+        "lon": 30.4184
+      },
+      "skills": [
+        "first_aid",
+        "food",
+        "water",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T13:11:43",
+          "end": "2026-02-10T18:25:06"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_42",
+      "location": {
+        "lat": 59.9737,
+        "lon": 30.3545
+      },
+      "skills": [
+        "shelter",
+        "water",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T11:46:39",
+          "end": "2026-02-10T15:17:16"
+        },
+        {
+          "start": "2026-02-10T17:33:40",
+          "end": "2026-02-10T22:00:18"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_43",
+      "location": {
+        "lat": 59.8529,
+        "lon": 30.2664
+      },
+      "skills": [
+        "first_aid",
+        "shelter",
+        "food",
+        "medical"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T18:18:13",
+          "end": "2026-02-11T01:12:30"
+        },
+        {
+          "start": "2026-02-10T15:34:33",
+          "end": "2026-02-10T18:45:08"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_44",
+      "location": {
+        "lat": 59.9612,
+        "lon": 30.2713
+      },
+      "skills": [
+        "food",
+        "medical",
+        "logistics",
+        "shelter"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T14:57:07",
+          "end": "2026-02-10T22:33:09"
+        },
+        {
+          "start": "2026-02-10T15:35:47",
+          "end": "2026-02-10T19:56:54"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_45",
+      "location": {
+        "lat": 59.9992,
+        "lon": 30.2523
+      },
+      "skills": [
+        "logistics",
+        "medical",
+        "shelter",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T09:33:52",
+          "end": "2026-02-10T16:07:14"
+        },
+        {
+          "start": "2026-02-10T13:25:45",
+          "end": "2026-02-10T21:22:56"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_46",
+      "location": {
+        "lat": 59.8834,
+        "lon": 30.3026
+      },
+      "skills": [
+        "food",
+        "shelter",
+        "logistics",
+        "first_aid"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T13:17:39",
+          "end": "2026-02-10T17:09:19"
+        },
+        {
+          "start": "2026-02-10T08:33:09",
+          "end": "2026-02-10T14:03:41"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_47",
+      "location": {
+        "lat": 60.0141,
+        "lon": 30.4179
+      },
+      "skills": [
+        "shelter",
+        "medical",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T08:49:41",
+          "end": "2026-02-10T15:35:46"
+        },
+        {
+          "start": "2026-02-10T16:05:29",
+          "end": "2026-02-10T22:10:19"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_48",
+      "location": {
+        "lat": 59.9196,
+        "lon": 30.1745
+      },
+      "skills": [
+        "food",
+        "water"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T12:59:14",
+          "end": "2026-02-10T16:37:31"
+        }
+      ],
+      "max_distance_km": 15
+    },
+    {
+      "id": "vol_49",
+      "location": {
+        "lat": 59.8989,
+        "lon": 30.2234
+      },
+      "skills": [
+        "first_aid",
+        "medical",
+        "water",
+        "food"
+      ],
+      "availability": [
+        {
+          "start": "2026-02-10T19:13:23",
+          "end": "2026-02-10T23:47:58"
+        },
+        {
+          "start": "2026-02-10T09:48:02",
+          "end": "2026-02-10T15:42:09"
+        }
+      ],
+      "max_distance_km": 15
+    }
+  ],
+  "algorithm": "greedy"
+}

@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: Volunteer Matcher Matching Service
+  version: 0.1.0
+paths:
+  /match:
+    post:
+      summary: Batch matching of shelter tasks and volunteer offers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tasks:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ShelterTask'
+                offers:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/VolunteerOffer'
+                algorithm:
+                  type: string
+                  enum: [greedy, hungarian, max_coverage]
+                metadata:
+                  type: object
+                  description: 'Optional. Arbitrary metadata for logging, experiment tracking, etc.'
+              required:
+                - tasks
+                - offers
+                - algorithm
+      responses:
+        '200':
+          description: Matching result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Match'
+components:
+  schemas:
+    ShelterTask:
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: object
+          properties:
+            lat:
+              type: number
+              format: float
+            lon:
+              type: number
+              format: float
+        required_skills:
+          type: array
+          items:
+            type: string
+        time_window:
+          type: object
+          properties:
+            start:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        description:
+          type: string
+      required:
+        - id
+        - location
+        - required_skills
+        - time_window
+    VolunteerOffer:
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: object
+          properties:
+            lat:
+              type: number
+              format: float
+            lon:
+              type: number
+              format: float
+        skills:
+          type: array
+          items:
+            type: string
+        availability:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+                format: date-time
+              end:
+                type: string
+                format: date-time
+        max_distance_km:
+          type: number
+          format: float
+        description:
+          type: string
+      required:
+        - id
+        - location
+        - skills
+        - availability
+        - max_distance_km
+    Match:
+      type: object
+      properties:
+        id:
+          type: string
+        shelter_task_id:
+          type: string
+        volunteer_offer_id:
+          type: string
+        score:
+          type: number
+          format: float
+      required:
+        - shelter_task_id
+        - volunteer_offer_id

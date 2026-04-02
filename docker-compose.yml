@@ -1,0 +1,67 @@
+services:
+  postgres:
+    # PostGIS = PostgreSQL + гео-типы и функции (расстояния, индексы по карте). См. README / LOCAL_DEV.md.
+    image: postgis/postgis:16-3.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-volunteer_matcher}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  matcher:
+    build:
+      context: .
+      dockerfile: matcher_service/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${MATCHER_PORT:-8000}:8000"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    environment:
+      PORT: "3000"
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-volunteer_matcher}
+      MATCHER_URL: http://matcher:8000
+      # Set JWT_SECRET in root .env (see .env.example). Fallback only for quick clone-and-run.
+      JWT_SECRET: ${JWT_SECRET:-volunteer_matcher_dev_jwt_change_in_prod}
+      TYPEORM_SYNCHRONIZE: ${TYPEORM_SYNCHRONIZE:-true}
+      # Default true so demo JSON loads when tasks+offers tables are empty (backend/.env is NOT used in Docker).
+      # Set SEED=false in repo-root .env for a clean stack without seed.
+      SEED: ${SEED:-true}
+      # Auto-matching excludes tasks whose start is sooner than this many hours (unless Urgent). Set 0 to disable.
+      MATCHING_CUTOFF_HOURS_BEFORE_START: ${MATCHING_CUTOFF_HOURS_BEFORE_START:-24}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      matcher:
+        condition: service_started
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3001}:3001"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
