@@ -32,8 +32,13 @@ TEST_CASES = [
     ),
 ]
 
-MATCH_URL = os.environ.get("MATCHER_URL", "http://localhost:8000/match")
-HEALTH_URL = os.environ.get("MATCHER_HEALTH_URL", "http://localhost:8000/health")
+def _matcher_base() -> str:
+    # Same convention as backend: MATCHER_URL is service root (no /match suffix).
+    return os.environ.get("MATCHER_URL", "http://localhost:8000").rstrip("/")
+
+
+MATCH_URL = os.environ.get("MATCHER_MATCH_URL", f"{_matcher_base()}/match")
+HEALTH_URL = os.environ.get("MATCHER_HEALTH_URL", f"{_matcher_base()}/health")
 
 
 def run_test(input_path, expected_path, base_payload, alg, url=MATCH_URL):
