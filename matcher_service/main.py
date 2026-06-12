@@ -6,7 +6,8 @@ Exposes /match endpoint for batch matching of shelter tasks and volunteer offers
 from datetime import datetime
 from typing import List
 
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, HTTPException, Request
+from fastapi.responses import JSONResponse
 from schema import (
     ShelterTask, VolunteerOffer, Match, MatchRequest, MatchResponse,
     haversine_km, time_overlap
@@ -14,17 +15,28 @@ from schema import (
 
 # Optional algorithm imports (Hungarian + max_coverage + bottleneck)
 try:
-    from hungarian_solver import hungarian_match, max_coverage_match, bottleneck_match
+    from hungarian_solver import (
+        hungarian_match,
+        max_coverage_match,
+        bottleneck_match,
+        MatchingSolverError,
+    )
 except ImportError as e:
     print(f"Warning: Could not import hungarian_solver: {e}")
     hungarian_match = None
     max_coverage_match = None
     bottleneck_match = None
+
+    class MatchingSolverError(RuntimeError):
+        pass
 except Exception as e:
     print(f"Warning: Error importing hungarian_solver: {e}")
     hungarian_match = None
     max_coverage_match = None
     bottleneck_match = None
+
+    class MatchingSolverError(RuntimeError):
+        pass
 
 def greedy_match(tasks: List[ShelterTask], offers: List[VolunteerOffer]) -> List[Match]:
     """
@@ -86,6 +98,22 @@ def greedy_match(tasks: List[ShelterTask], offers: List[VolunteerOffer]) -> List
 
 app = FastAPI(title="Volunteer Matcher Matching Service", version="0.1.0")
 
+
+@app.get("/health", summary="Liveness check")
+def health():
+    return {"status": "ok"}
+
+
+@app.exception_handler(ValueError)
+async def value_error_handler(_request: Request, exc: ValueError):
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
+
+
+@app.exception_handler(MatchingSolverError)
+async def solver_error_handler(_request: Request, exc: MatchingSolverError):
+    return JSONResponse(status_code=500, content={"detail": str(exc)})
+
+
 @app.post("/match", response_model=MatchResponse, summary="Batch matching of shelter tasks and volunteer offers")
 def match_endpoint(req: MatchRequest = Body(...)):
     """
@@ -97,7 +125,7 @@ def match_endpoint(req: MatchRequest = Body(...)):
         return MatchResponse(matches=matches)
     if req.algorithm == "hungarian":
         if hungarian_match is None:
-            raise ValueError("Hungarian solver not available.")
+            raise HTTPException(status_code=503, detail="Hungarian solver not available.")
         matches = hungarian_match(req.tasks, req.offers)
         # Explicitly create Match objects from schema module
         from schema import Match as SchemaMatch
@@ -105,14 +133,14 @@ def match_endpoint(req: MatchRequest = Body(...)):
         return MatchResponse(matches=match_objs)
     if req.algorithm == "max_coverage":
         if max_coverage_match is None:
-            raise ValueError("max_coverage solver not available.")
+            raise HTTPException(status_code=503, detail="max_coverage solver not available.")
         matches = max_coverage_match(req.tasks, req.offers)
         from schema import Match as SchemaMatch
         match_objs = [SchemaMatch(**m.model_dump()) if hasattr(m, 'model_dump') else SchemaMatch(**m.dict()) for m in matches]
         return MatchResponse(matches=match_objs)
     if req.algorithm == "bottleneck":
         if bottleneck_match is None:
-            raise ValueError("bottleneck solver not available.")
+            raise HTTPException(status_code=503, detail="bottleneck solver not available.")
         matches = bottleneck_match(req.tasks, req.offers)
         from schema import Match as SchemaMatch
         match_objs = [SchemaMatch(**m.model_dump()) if hasattr(m, 'model_dump') else SchemaMatch(**m.dict()) for m in matches]

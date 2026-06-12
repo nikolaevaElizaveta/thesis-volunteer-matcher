@@ -5,11 +5,20 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { TaskEntity } from './task.entity';
 import { OfferEntity } from './offer.entity';
 
 @Entity('assignments')
+@Index('UQ_assignments_approved_shelter_task_id', ['shelter_task_id'], {
+  unique: true,
+  where: `"status" = 'approved'`,
+})
+@Index('UQ_assignments_approved_volunteer_offer_id', ['volunteer_offer_id'], {
+  unique: true,
+  where: `"status" = 'approved'`,
+})
 export class AssignmentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;

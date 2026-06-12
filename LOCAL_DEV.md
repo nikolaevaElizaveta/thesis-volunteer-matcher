@@ -202,6 +202,16 @@ Default API URL is `http://localhost:3000` (see `NEXT_PUBLIC_API_URL` in `fronte
 
 ---
 
+## Integration tests
+
+With Docker Postgres + matcher running:
+
+```bash
+./scripts/run-e2e.sh          # backend e2e (match → approve)
+cd matcher_service && ../venv/bin/python test_matcher.py
+./scripts/run-ci-local.sh     # full CI locally
+```
+
 ## Checklist
 
 | Service   | URL                      |

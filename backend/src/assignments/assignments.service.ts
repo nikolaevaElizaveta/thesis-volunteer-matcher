@@ -1,7 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
+import type { JwtPayload } from '../auth/jwt.strategy';
 import { AssignmentEntity } from '../entities/assignment.entity';
+import { OffersService } from '../offers/offers.service';
+import { TasksService } from '../tasks/tasks.service';
 import { AssignmentDto } from './dto/assignment.dto';
 import { ApproveMatchesDto } from './dto/approve-matches.dto';
 
@@ -10,6 +17,8 @@ export class AssignmentsService {
   constructor(
     @InjectRepository(AssignmentEntity)
     private readonly repo: Repository<AssignmentEntity>,
+    private readonly tasksService: TasksService,
+    private readonly offersService: OffersService,
   ) {}
 
   /**
@@ -33,6 +42,8 @@ export class AssignmentsService {
           `This volunteer offer is already assigned to a task.`,
         );
       }
+      taskTaken.add(m.shelter_task_id);
+      offerTaken.add(m.volunteer_offer_id);
     }
 
     const entities = dto.matches.map((m) =>
@@ -45,7 +56,21 @@ export class AssignmentsService {
       }),
     );
 
-    const saved = await this.repo.save(entities);
+    let saved: AssignmentEntity[];
+    try {
+      saved = await this.repo.save(entities);
+    } catch (err: unknown) {
+      if (
+        err instanceof QueryFailedError &&
+        (err as QueryFailedError & { driverError?: { code?: string } })
+          .driverError?.code === '23505'
+      ) {
+        throw new BadRequestException(
+          'Assignment conflict: this task or volunteer offer is already assigned.',
+        );
+      }
+      throw err;
+    }
     return this.dedupeApprovedToDtos([...existing, ...saved]);
   }
 
@@ -59,6 +84,67 @@ export class AssignmentsService {
       order: { created_at: 'DESC' },
     });
     return this.dedupeApprovedToDtos(entities);
+  }
+
+  /** Role-scoped list: coordinator sees all; shelter/volunteer only their rows. */
+  async findAllForUser(user: JwtPayload): Promise<AssignmentDto[]> {
+    const all = await this.findAll();
+    if (user.role === 'coordinator') {
+      return all;
+    }
+    if (user.role === 'volunteer') {
+      const offers = await this.offersService.findAll();
+      const mine = new Set(
+        offers
+          .filter(
+            (o) =>
+              (o.description ?? '').trim().toLowerCase() ===
+              user.displayName.trim().toLowerCase(),
+          )
+          .map((o) => o.id),
+      );
+      return all.filter((a) => mine.has(a.volunteer_offer_id));
+    }
+    if (user.role === 'shelter') {
+      const tasks = await this.tasksService.findAll(user.displayName);
+      const mine = new Set(tasks.map((t) => t.id));
+      return all.filter((a) => mine.has(a.shelter_task_id));
+    }
+    return [];
+  }
+
+  async assertCanViewTaskAssignments(
+    user: JwtPayload,
+    taskId: string,
+  ): Promise<void> {
+    if (user.role === 'coordinator') {
+      return;
+    }
+    if (user.role !== 'shelter') {
+      throw new ForbiddenException();
+    }
+    const tasks = await this.tasksService.findAll(user.displayName);
+    if (!tasks.some((t) => t.id === taskId)) {
+      throw new ForbiddenException('Not your task');
+    }
+  }
+
+  async assertCanViewOfferAssignments(
+    user: JwtPayload,
+    offerId: string,
+  ): Promise<void> {
+    if (user.role === 'coordinator') {
+      return;
+    }
+    if (user.role !== 'volunteer') {
+      throw new ForbiddenException();
+    }
+    const offer = await this.offersService.findOne(offerId);
+    const desc = (offer.description ?? '').trim().toLowerCase();
+    const mine = user.displayName.trim().toLowerCase();
+    if (desc !== mine) {
+      throw new ForbiddenException('Not your offer');
+    }
   }
 
   /** Collapse duplicate rows (legacy) → one per task and per volunteer offer. */

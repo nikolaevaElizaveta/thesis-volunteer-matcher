@@ -5,6 +5,10 @@ from datetime import datetime
 from schema import ShelterTask, VolunteerOffer, Match, haversine_km, time_overlap
 
 
+class MatchingSolverError(RuntimeError):
+    """Raised when an optimal assignment solver fails unexpectedly."""
+
+
 def hungarian_match(tasks: List[ShelterTask], offers: List[VolunteerOffer]) -> List[Match]:
     """
     Match tasks and offers optimally (min total distance) using the Hungarian algorithm (Kuhn-Munkres).
@@ -64,8 +68,10 @@ def hungarian_match(tasks: List[ShelterTask], offers: List[VolunteerOffer]) -> L
                     score=1/(1 + cost_matrix[i, j])
                 ))
         return matches
-    except Exception:
-        return []
+    except Exception as e:
+        raise MatchingSolverError(
+            f"hungarian linear_sum_assignment failed: {e}"
+        ) from e
 
 
 def max_coverage_match(tasks: List[ShelterTask], offers: List[VolunteerOffer]) -> List[Match]:
@@ -146,8 +152,10 @@ def max_coverage_match(tasks: List[ShelterTask], offers: List[VolunteerOffer]) -
                 )
             )
         return matches
-    except Exception:
-        return []
+    except Exception as e:
+        raise MatchingSolverError(
+            f"max_coverage linear_sum_assignment failed: {e}"
+        ) from e
 
 
 def _collect_feasible_edges(

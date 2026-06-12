@@ -15,6 +15,15 @@ json_post() {
 
 echo "Smoke API @ $BASE"
 
+# 0) Readiness (no auth): DB + matcher must be up
+health="$(curl -sS -w '\n%{http_code}' "$BASE/health")"
+code="$(echo "$health" | tail -n1)"
+body="$(echo "$health" | sed '$d')"
+[[ "$code" == "200" ]] || die "GET /health expected 200, got $code body=$body"
+echo "$body" | python3 -c "import sys,json; d=json.load(sys.stdin); assert d.get('ready') and d.get('database')=='ok'" 2>/dev/null \
+  || die "GET /health body not ready: $body"
+ok "GET /health → 200 (database ok)"
+
 # 1) Unauthorized
 code="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE/tasks")"
 [[ "$code" == "401" ]] || die "GET /tasks without auth expected 401, got $code"

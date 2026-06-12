@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: volunteer_matcher
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d volunteer_matcher"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/volunteer_matcher
+      MATCHER_URL: http://127.0.0.1:8000
+      JWT_SECRET: ci_jwt_secret_at_least_8_chars
+      SEED: 'true'
+      TYPEORM_SYNCHRONIZE: 'true'
+      HEALTH_CHECK_MATCHER: 'true'
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start matcher service
+        run: |
+          cd matcher_service
+          uvicorn main:app --host 127.0.0.1 --port 8000 &
+          for i in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:8000/health >/dev/null; then
+              echo "matcher ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "matcher failed to start"
+          exit 1
+
+      - name: Matcher canonical tests (test_matcher.py)
+        run: cd matcher_service && python test_matcher.py
+
+      - name: Enable PostGIS extension
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          psql "$DATABASE_URL" -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Backend e2e tests
+        working-directory: backend
+        run: npm run test:e2e
+
+      - name: Build backend and run HTTP smoke scripts
+        run: |
+          cd backend
+          npm run build
+          node dist/main.js &
+          BACKEND_PID=$!
+          cleanup() { kill "$BACKEND_PID" 2>/dev/null || true; }
+          trap cleanup EXIT
+          for i in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:3000/health >/dev/null; then
+              echo "backend ready"
+              break
+            fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:3000/health || { echo "backend health failed"; exit 1; }
+          cd ..
+          ./scripts/smoke-api.sh
+          ./scripts/smoke-match-algorithms.sh

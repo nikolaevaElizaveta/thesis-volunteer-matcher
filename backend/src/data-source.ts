@@ -9,6 +9,7 @@ import { UserEntity } from './entities/user.entity';
 import { AddPostgisGeographyColumns1738867200000 } from './migrations/1738867200000-AddPostgisGeographyColumns';
 import { AddAddressToTasksAndOffers1740000000000 } from './migrations/1740000000000-AddAddressToTasksAndOffers';
 import { AddUrgentToTasks1740100000000 } from './migrations/1740100000000-AddUrgentToTasks';
+import { AssignmentUniqueApproved1740200000000 } from './migrations/1740200000000-AssignmentUniqueApproved';
 
 config({ path: resolve(__dirname, '../.env') });
 
@@ -30,6 +31,7 @@ export default new DataSource({
     AddPostgisGeographyColumns1738867200000,
     AddAddressToTasksAndOffers1740000000000,
     AddUrgentToTasks1740100000000,
+    AssignmentUniqueApproved1740200000000,
   ],
   synchronize: false,
   logging: process.env.TYPEORM_LOGGING === 'true',

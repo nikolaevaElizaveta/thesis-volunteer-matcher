@@ -7,6 +7,7 @@ import { MatchModule } from './match/match.module';
 import { OffersModule } from './offers/offers.module';
 import { TasksModule } from './tasks/tasks.module';
 import { SeedModule } from './seed/seed.module';
+import { HealthModule } from './health/health.module';
 import { typeOrmOptionsFromConfig } from './typeorm-options';
 
 @Module({
@@ -23,6 +24,7 @@ import { typeOrmOptionsFromConfig } from './typeorm-options';
     OffersModule,
     MatchModule,
     AssignmentsModule,
+    HealthModule,
     /** Loads src/seed/dev-seed.json when SEED=true and DB is empty (dev/demo only). */
     SeedModule,
   ],

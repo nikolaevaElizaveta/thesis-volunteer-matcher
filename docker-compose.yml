@@ -40,9 +40,10 @@ services:
       # Set JWT_SECRET in root .env (see .env.example). Fallback only for quick clone-and-run.
       JWT_SECRET: ${JWT_SECRET:-volunteer_matcher_dev_jwt_change_in_prod}
       TYPEORM_SYNCHRONIZE: ${TYPEORM_SYNCHRONIZE:-true}
-      # Default true so demo JSON loads when tasks+offers tables are empty (backend/.env is NOT used in Docker).
-      # Set SEED=false in repo-root .env for a clean stack without seed.
-      SEED: ${SEED:-true}
+      # Default false (safe for cloud). Local demo: SEED=true in repo-root .env
+      SEED: ${SEED:-false}
+      # Readiness: GET /health checks DB + matcher (set false to skip matcher ping)
+      HEALTH_CHECK_MATCHER: ${HEALTH_CHECK_MATCHER:-true}
       # Auto-matching excludes tasks whose start is sooner than this many hours (unless Urgent). Set 0 to disable.
       MATCHING_CUTOFF_HOURS_BEFORE_START: ${MATCHING_CUTOFF_HOURS_BEFORE_START:-24}
     depends_on:

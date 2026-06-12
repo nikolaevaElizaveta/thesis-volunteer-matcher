@@ -42,5 +42,19 @@ coverage/
 # Local notes/progress
 dissertation_progress/
 
-# Benchmark outputs (large JSON exports)
+# Benchmark run outputs (regenerate via scripts/run_benchmarks.sh)
 matcher_service/results/
+
+# Thesis / dissertation writing (local only — not for GitHub)
+matcher_service/thesis_exports/
+matcher_service/03.04*
+matcher_service/generate_thesis_exports.py
+scripts/generate_thesis_materials.sh
+
+matcher_service/evaluation_*.json
+matcher_service/evaluation_summary.*
+matcher_service/scaling_*.json
+matcher_service/benchmark_*.json
+!matcher_service/examples/**
+
+.venv_btest/

@@ -67,21 +67,8 @@ export default function AssignmentsPage() {
     load();
   }, [load]);
 
-  /**
-   * Filter by role (mock identity):
-   * - coordinator: all
-   * - shelter: assignments whose task is in our task map (we only load tasks with owner_name = us)
-   * - volunteer: offer.description === user.name
-   */
-  const visibleAssignments = assignments.filter((a) => {
-    if (role === "coordinator") return true;
-    if (role === "shelter") return Boolean(tasks[a.shelter_task_id]);
-    if (role === "volunteer" && user?.name) {
-      const offer = offers[a.volunteer_offer_id];
-      return offer?.description === user.name;
-    }
-    return true;
-  });
+  // API returns role-scoped rows; keep list as returned.
+  const visibleAssignments = assignments;
 
   const pageTitle =
     role === "coordinator"

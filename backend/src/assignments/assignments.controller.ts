@@ -5,7 +5,9 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
+import type { JwtPayload } from '../auth/jwt.strategy';
 import { RolesGuard } from '../auth/roles.guard';
 import { AssignmentsService } from './assignments.service';
 import { AssignmentDto } from './dto/assignment.dto';
@@ -33,17 +35,24 @@ export class AssignmentsController {
   @ApiOperation({
     summary: 'List assignments',
     description:
-      'Get all assignments, optionally filtered by task_id or offer_id.',
+      'Coordinator: all approved assignments. Shelter/volunteer: only rows for their tasks/offers. Optional task_id or offer_id filter (role-checked).',
   })
   @ApiQuery({ name: 'task_id', required: false })
   @ApiQuery({ name: 'offer_id', required: false })
   async findAll(
+    @CurrentUser() user: JwtPayload,
     @Query('task_id') taskId?: string,
     @Query('offer_id') offerId?: string,
   ): Promise<AssignmentDto[]> {
-    if (taskId) return this.service.findByTask(taskId);
-    if (offerId) return this.service.findByVolunteer(offerId);
-    return this.service.findAll();
+    if (taskId) {
+      await this.service.assertCanViewTaskAssignments(user, taskId);
+      return this.service.findByTask(taskId);
+    }
+    if (offerId) {
+      await this.service.assertCanViewOfferAssignments(user, offerId);
+      return this.service.findByVolunteer(offerId);
+    }
+    return this.service.findAllForUser(user);
   }
 
   @Delete()

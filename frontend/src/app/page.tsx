@@ -24,8 +24,8 @@ import {
   type Assignment,
   type Offer,
 } from "@/lib/api";
-import { useRole } from "@/context/RoleContext";
-import { useAuth } from "@/context/RoleContext";
+import { useRole, useAuth } from "@/context/RoleContext";
+import { openTaskCounts } from "@/lib/task-matching";
 
 /** Tasks or volunteer-offers pool: primary number on cards = `open` (still needs a match). */
 interface PoolStats {
@@ -99,6 +99,10 @@ export default function Dashboard() {
     total: 0,
   });
   const [assignmentCount, setAssignmentCount] = useState(0);
+  /** Volunteer: unassigned tasks past auto-matching deadline (excluded from “you can take”). */
+  const [pastDeadlineOpen, setPastDeadlineOpen] = useState(0);
+  /** Coordinator: matchable open tasks (for Ready to Match). */
+  const [matchableTaskOpen, setMatchableTaskOpen] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -122,12 +126,19 @@ export default function Dashboard() {
         );
         const offerById = Object.fromEntries(offerList.map((o) => [o.id, o]));
 
+        const { matchableOpen, pastDeadlineOpen: pastDl } = openTaskCounts(
+          allTasks,
+          approvedTaskIds
+        );
+
         if (r === "shelter" && user?.name) {
           // API already filters by owner_name (case-insensitive on server)
           const mine = allTasks;
           setTasks(mine);
           setTaskPool(poolFromTasks(mine, approvedTaskIds));
           setOfferPool({ open: 0, assigned: 0, total: 0 });
+          setMatchableTaskOpen(0);
+          setPastDeadlineOpen(0);
           setAssignmentCount(
             assignmentList.filter((a) =>
               mine.some((t) => t.id === a.shelter_task_id)
@@ -136,9 +147,17 @@ export default function Dashboard() {
           return;
         }
 
+        setMatchableTaskOpen(matchableOpen);
+        setPastDeadlineOpen(pastDl);
+
         if (r === "volunteer" && user?.name) {
           setTasks(allTasks);
-          setTaskPool(poolFromTasks(allTasks, approvedTaskIds));
+          const assigned = allTasks.filter((t) => approvedTaskIds.has(t.id)).length;
+          setTaskPool({
+            open: matchableOpen,
+            assigned,
+            total: allTasks.length,
+          });
           const myOffers = offerList.filter((o) => o.description === user.name);
           setOfferPool(poolFromOffers(myOffers, assignedOfferIds));
           setAssignmentCount(
@@ -160,7 +179,7 @@ export default function Dashboard() {
 
   /** Coordinator: both pools have “open” rows — you may run matching (feasible pairs not pre-checked). */
   const coordinatorReadyToMatch =
-    taskPool.open > 0 && offerPool.open > 0;
+    matchableTaskOpen > 0 && offerPool.open > 0;
   const coordinatorAllTasksAssigned =
     taskPool.total > 0 &&
     taskPool.open === 0 &&
@@ -202,7 +221,7 @@ export default function Dashboard() {
           ? "Done"
           : "No",
       subline: coordinatorReadyToMatch
-        ? `${taskPool.open} open task(s) · ${offerPool.open} open volunteer(s) — run matching to check if any pairs are feasible`
+        ? `${matchableTaskOpen} matchable task(s) · ${offerPool.open} open volunteer(s) — run matching to check if any pairs are feasible`
         : coordinatorAllTasksAssigned
           ? "Every task has an approved volunteer"
           : taskPool.total === 0 || offerPool.total === 0
@@ -257,7 +276,10 @@ export default function Dashboard() {
       key: "tasks-vol",
       label: "Open tasks you can take",
       primary: taskPool.open,
-      subline: taskPoolSubline(taskPool),
+      subline:
+        pastDeadlineOpen > 0
+          ? `${taskPool.assigned} already matched · ${pastDeadlineOpen} past matching deadline (excluded)`
+          : taskPoolSubline(taskPool),
       icon: Search,
       color: "text-indigo-500",
       bg: "bg-indigo-50",

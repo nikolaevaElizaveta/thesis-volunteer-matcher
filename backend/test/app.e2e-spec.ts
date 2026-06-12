@@ -4,53 +4,25 @@
  * Prerequisite: backend/.env with DATABASE_URL or DATABASE_HOST/… (same as local dev).
  * Docker: expose 5432 and use postgresql://postgres:postgres@localhost:5432/volunteer_matcher
  *
- * SEED is forced to true for this process so an empty DB gets demo users (demo_shelter / demo123).
+ * Match pipeline: see match-flow.e2e-spec.ts (requires matcher on :8000).
  */
-import { ValidationPipe } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { config as loadEnv } from 'dotenv';
-import { resolve } from 'path';
+import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { createE2eApp } from './helpers/e2e-app';
+import { loadE2eEnvironment } from './helpers/e2e-env';
 
-loadEnv({ path: resolve(__dirname, '../.env') });
-
-const hasDbConfig = Boolean(
-  process.env.DATABASE_URL?.trim() ||
-    (process.env.DATABASE_HOST && process.env.DATABASE_NAME),
-);
-
-if (hasDbConfig) {
-  process.env.SEED = 'true';
-  process.env.MATCHER_URL =
-    process.env.MATCHER_URL ?? 'http://127.0.0.1:59999/unused-in-these-tests';
-  process.env.JWT_SECRET =
-    process.env.JWT_SECRET ?? 'e2e_jwt_secret_at_least_8_chars';
-}
-
-const describeE2e = hasDbConfig ? describe : describe.skip;
+const { hasDb } = loadE2eEnvironment();
+const describeE2e = hasDb ? describe : describe.skip;
 
 describeE2e('App (e2e)', () => {
-  let app: import('@nestjs/common').INestApplication;
+  let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-      }),
-    );
-    await app.init();
+    app = await createE2eApp();
   });
 
   afterAll(async () => {
-    await app.close();
+    await app?.close();
   });
 
   it('GET /tasks without token → 401', () => {
@@ -159,7 +131,7 @@ describeE2e('App (e2e)', () => {
   });
 });
 
-if (!hasDbConfig) {
+if (!hasDb) {
   // eslint-disable-next-line no-console
   console.warn(
     '[e2e] Skipped: set DATABASE_URL or DATABASE_HOST+DATABASE_NAME in backend/.env',
