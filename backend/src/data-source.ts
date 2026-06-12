@@ -13,12 +13,32 @@ import { AssignmentUniqueApproved1740200000000 } from './migrations/174020000000
 
 config({ path: resolve(__dirname, '../.env') });
 
-const url = process.env.DATABASE_URL?.trim();
+const rawUrl = process.env.DATABASE_URL?.trim();
+
+/** Render external Postgres requires TLS; append sslmode if missing. */
+function postgresUrlWithSsl(url: string): string {
+  if (/[?&]sslmode=/.test(url)) {
+    return url;
+  }
+  const needsSsl =
+    url.includes('render.com') || process.env.DATABASE_SSL === 'true';
+  if (!needsSsl) {
+    return url;
+  }
+  return `${url}${url.includes('?') ? '&' : '?'}sslmode=require`;
+}
+
+const url = rawUrl ? postgresUrlWithSsl(rawUrl) : undefined;
+const useSsl =
+  !!url &&
+  (process.env.DATABASE_SSL === 'true' ||
+    rawUrl?.includes('render.com') ||
+    /[?&]sslmode=require/.test(url));
 
 export default new DataSource({
   type: 'postgres',
   ...(url
-    ? { url }
+    ? { url, ...(useSsl ? { ssl: { rejectUnauthorized: false } } : {}) }
     : {
         host: process.env.DATABASE_HOST ?? 'localhost',
         port: parseInt(process.env.DATABASE_PORT ?? '5432', 10),
