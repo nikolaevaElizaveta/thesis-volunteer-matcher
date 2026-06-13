@@ -41,9 +41,15 @@ DATABASE_PORT=5432
 DATABASE_USER=postgres
 DATABASE_PASSWORD=your_password
 DATABASE_NAME=volunteer_matcher
+
+# Optional (defaults shown in backend/.env.example):
+# TYPEORM_SYNCHRONIZE=true
+# SEED=false
+# MATCHING_CUTOFF_HOURS_BEFORE_START=24
+# HEALTH_CHECK_MATCHER=true
 ```
 
-(Do **not** set `DATABASE_URL` here unless you use it instead of the variables above.)
+(Do **not** set `DATABASE_URL` here unless you use it instead of the discrete variables above.)
 
 **PostGIS (local Postgres):** our schema uses a generated `geography` column — the DB must have the PostGIS extension.
 
@@ -51,69 +57,62 @@ DATABASE_NAME=volunteer_matcher
 psql -U your_user -d volunteer_matcher -c "CREATE EXTENSION IF NOT EXISTS postgis;"
 ```
 
-**macOS Homebrew — important:** the `postgis` formula ships extension files for **`postgresql@17`** and **`postgresql@18` only** (under e.g. `.../postgresql@17/extension/postgis.control`). It does **not** install into **`postgresql@16`**. If your server is `@16`, `CREATE EXTENSION postgis` fails with *extension "postgis" is not available* even after `brew install postgis`.
+**macOS Homebrew — important:** the `postgis` formula ships extension files for **`postgresql@17`** and **`postgresql@18` only**. It does **not** install into **`postgresql@16`**. If your server is `@16`, `CREATE EXTENSION postgis` fails with *extension "postgis" is not available* even after `brew install postgis`.
 
 Pick one:
 
 | Approach | What to do |
 |----------|------------|
 | **A. PostgreSQL 17 (matches Homebrew PostGIS)** | See **checklist below**. |
-| **B. Stay on PostgreSQL 16** | Use **Docker** Postgres only for this project: `docker compose up -d postgres`, set `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/volunteer_matcher` in `backend/.env`, run `npm run migration:run` from the host. |
+| **B. Docker Postgres only** | `docker compose up -d postgres`, set `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/volunteer_matcher` in `backend/.env`, run `npm run migration:run` from the host. Avoids Homebrew PostGIS version mismatch. |
+
+**Port 5432 on Mac:** if Homebrew Postgres and Docker both bind `:5432`, `psql` and e2e may hit the wrong server. Prefer **one** Postgres for this project, or use `./scripts/run-e2e.sh` (Docker network — does not use host `:5432`).
 
 **Docker Compose** uses the `postgis/postgis` image and runs `postgres/init/01-postgis.sql` on first DB init — no Homebrew PostGIS needed for that path.
 
 #### Checklist: PostgreSQL 17 + Homebrew PostGIS (macOS)
 
-1. **Install & start PG 17** (PostGIS from `brew install postgis` already targets this version):
+1. **Install & start PG 17:**
    ```bash
    brew install postgresql@17
    brew services stop postgresql@16    # if 16 still holds port 5432
    brew services start postgresql@17
    ```
-2. **Add PG 17 tools to your PATH** for this shell (Homebrew prints a hint after install), e.g.:
+2. **Add PG 17 tools to PATH**, e.g.:
    ```bash
    echo 'export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
    ```
-   Use `which psql` — it should resolve under `postgresql@17`.
-3. **Create role + database** (adjust names/passwords to match `backend/.env`):
+   `which psql` should resolve under `postgresql@17`.
+3. **Create role + database** (match `backend/.env`):
    ```bash
-   createuser -s your_mac_user          # superuser, or use postgres role you prefer
+   createuser -s your_mac_user
    createdb volunteer_matcher
    ```
-   Or: `psql -d postgres -c "CREATE USER ...; CREATE DATABASE volunteer_matcher OWNER ...;"`
-4. **Enable PostGIS before the first Nest boot** (entities use `geography`; synchronize needs the extension):
+4. **Enable PostGIS before first Nest boot:**
    ```bash
    psql -d volunteer_matcher -c "CREATE EXTENSION IF NOT EXISTS postgis;"
    ```
-   (`npm run migration:run` also runs `CREATE EXTENSION`, but only after tables exist — so enable it here to avoid startup errors.)
-5. **Edit `backend/.env`**: `DATABASE_HOST=localhost`, `DATABASE_PORT=5432`, `DATABASE_USER=...`, `DATABASE_PASSWORD=...` (empty if trust/peer), `DATABASE_NAME=volunteer_matcher`. Remove or override `DATABASE_URL` if you rely on discrete vars.
-6. **Create tables, then run the PostGIS migration** (migrations use `ALTER TABLE` — tables must exist first):
+5. **Edit `backend/.env`** with `DATABASE_*` vars (or `DATABASE_URL` for Compose DB).
+6. **Create tables, then run migrations** (migrations use `ALTER TABLE` — tables must exist first):
    ```bash
    cd backend
    npm run start:dev
    ```
-   Wait until Nest starts without errors (TypeORM `synchronize` creates `shelter_tasks`, `volunteer_offers`, etc.), then stop with Ctrl+C.
+   Wait until Nest starts (TypeORM `synchronize` creates base tables), then Ctrl+C.
    ```bash
    npm run migration:run
-   npm run migration:show    # expect [X] AddPostgisGeographyColumns…
+   npm run migration:show
    ```
-7. **Start backend again** (`npm run start:dev`). Optional: `SEED=true` in `.env` if you want demo rows on empty tasks/offers.
+   Expect **`[X]`** on all four migrations:
+   - `AddPostgisGeographyColumns1738867200000`
+   - `AddAddressToTasksAndOffers1740000000000`
+   - `AddUrgentToTasks1740100000000`
+   - `AssignmentUniqueApproved1740200000000`
+7. **Start backend again** (`npm run start:dev`). Optional: `SEED=true` for demo data on empty tables.
 
-### TypeORM migration: `geog` columns (PostGIS)
+**Migrations CLI:** `migration:show` / `migration:revert` / `migration:run` from `backend/`. Render external `DATABASE_URL` from a laptop needs TLS — `data-source.ts` appends `sslmode=require` for `render.com` hosts.
 
-After PostGIS is available in the database you use for the backend:
-
-```bash
-cd backend
-npm run migration:run    # applies 1738867200000-AddPostgisGeographyColumns
-```
-
-- **`migration:show`** — pending vs executed  
-- **`migration:revert`** — undo last migration  
-
-Entities `TaskEntity` / `OfferEntity` include a **generated** `geography(Point,4326)` column `geog` (+ GiST index) so `TYPEORM_SYNCHRONIZE=true` does not drop them.
-
-**Local Postgres without PostGIS:** install it (e.g. `brew install postgis`) or point `backend/.env` at the Compose DB (`DATABASE_URL=postgresql://postgres:postgres@localhost:5432/volunteer_matcher`) and run the migration there.
+Entities `TaskEntity` / `OfferEntity` include a **generated** `geography(Point,4326)` column `geog` (+ GiST index).
 
 ### Optional: auto-fill demo users, tasks & offers (dev)
 
@@ -125,20 +124,16 @@ SEED=true
 
 Flow on startup when **`SEED=true`**:
 
-1. If the **`users`** table is empty, the backend creates demo accounts (password **`demo123`** for all): **`coordinator`**, **`demo_shelter`**, **`demo_volunteer_alex`**, **`demo_volunteer_sam`**, plus extra **`seed_shelter_XX`** / **`seed_volunteer_XX`** rows for a larger pool (see server log for counts).
-2. If **both** **`tasks`** and **`offers`** are empty, it loads `backend/src/seed/dev-seed.json` and then **augments** it with **generated** tasks/offers tied to those seeded users (so you get far more than the small base JSON).
+1. If **`users`** is empty → demo accounts (password **`demo123`**): `coordinator`, `demo_shelter`, `demo_volunteer_alex`, `demo_volunteer_sam`, plus `seed_shelter_XX` / `seed_volunteer_XX`.
+2. If **both** `tasks` and `offers` are empty → loads `backend/src/seed/dev-seed.json` and augments with generated rows.
 
-If either tasks or offers already has data, JSON + generated task/offer seed is **skipped** (restart-safe). To re-seed: truncate those tables (and users if you want a full reset) or use `docker compose down -v` for a fresh DB.
+If either tasks or offers has data, task/offer seed is **skipped**. Full reset: truncate tables or `docker compose down -v`.
 
-Demo rows from JSON often use `owner_name: "Demo Shelter"` — log in as that shelter to see them under “My Tasks”.
-
-For Docker, set `SEED=true` in the **repo root** `.env` (Compose passes it to the backend).
+For Docker, set `SEED=true` in the **repo root** `.env` (Compose passes it to the backend). Production / Render: **`SEED=false`**.
 
 ---
 
 ## Sign in (JWT)
-
-The UI uses **username + password** against `POST /auth/login`. After **`SEED=true`** and an **empty `users` table**, the backend seeds:
 
 | Username | Password | Role |
 |----------|----------|------|
@@ -147,21 +142,17 @@ The UI uses **username + password** against `POST /auth/login`. After **`SEED=tr
 | `demo_volunteer_alex` | `demo123` | volunteer |
 | `demo_volunteer_sam` | `demo123` | volunteer |
 
-Additional **`seed_shelter_XX`** / **`seed_volunteer_XX`** users (same password) are created for a larger demo pool — counts are logged at startup.
+Set **`JWT_SECRET`** (≥8 chars) for production; local dev uses a built-in secret if unset.
 
-Set **`JWT_SECRET`** (≥8 chars) in `backend/.env` for production builds; local **`NODE_ENV=development`** uses a built-in dev secret if unset. Docker Compose sets a default `JWT_SECRET`.
-
-Shelters/volunteers can register in the UI at **http://localhost:3001/register** or via **`POST /auth/register`** in Swagger. Coordinators are **not** self-registered.
+Register shelter/volunteer: **http://localhost:3001/register** or Swagger `POST /auth/register`. Coordinators are **not** self-registered.
 
 ---
 
 ## 1. Every day — 4 terminals
 
-**Terminal 1 — PostgreSQL**  
-If it’s not already a system service, start the **same major version you configured** (for Homebrew + PostGIS, prefer **`postgresql@17`** — see checklist above; avoid `@16` unless you use Docker-only Postgres for this project).
+**Terminal 1 — PostgreSQL** (same major version as configured; Homebrew → `postgresql@17`):
 
 ```bash
-# macOS Homebrew example (align with your install):
 brew services start postgresql@17
 ```
 
@@ -180,7 +171,8 @@ cd /path/to/my_thesis/backend
 npm run start:dev
 ```
 
-Swagger: http://localhost:3000/api
+- Swagger: http://localhost:3000/api  
+- Health: http://localhost:3000/health (DB + matcher readiness)
 
 **Terminal 4 — Frontend (port 3001)**
 
@@ -189,33 +181,44 @@ cd /path/to/my_thesis/frontend
 npm run dev -- --port 3001
 ```
 
-Open **http://localhost:3001** in the browser.
-
-Default API URL is `http://localhost:3000` (see `NEXT_PUBLIC_API_URL` in `frontend/.env.local` if you need to change it).
+Open **http://localhost:3001**. API base: `http://localhost:3000` (`NEXT_PUBLIC_API_URL` in `frontend/.env.local` if needed).
 
 ---
 
 ## Port conflicts
 
-- If **3000** is taken, change `PORT` in `backend/.env` and set `NEXT_PUBLIC_API_URL` in the frontend accordingly.
-- If **8000** is taken, change matcher port and `MATCHER_URL` in `backend/.env`.
+- **3000** taken → change `PORT` in `backend/.env` and `NEXT_PUBLIC_API_URL` in frontend.
+- **8000** taken → change matcher port and `MATCHER_URL` in `backend/.env`.
+- **5432** taken / wrong Postgres → see approach B or `run-e2e.sh` below.
 
 ---
 
-## Integration tests
-
-With Docker Postgres + matcher running:
+## Tests & smoke (with stack running)
 
 ```bash
-./scripts/run-e2e.sh          # backend e2e (match → approve)
+# Matcher — 16 HTTP tests, 4 algorithms (matcher on :8000)
 cd matcher_service && ../venv/bin/python test_matcher.py
-./scripts/run-ci-local.sh     # full CI locally
+
+# Backend e2e — prefers Docker network (avoids Mac :5432 conflict)
+./scripts/run-e2e.sh
+
+# Full local CI (matcher + e2e + smoke)
+./scripts/run-ci-local.sh
+
+# Quick HTTP checks (backend on :3000, SEED/demo user for match smoke)
+./scripts/smoke-api.sh
+./scripts/smoke-match-algorithms.sh
 ```
+
+GitHub Actions runs the same matcher tests, e2e, and smoke on push — see `.github/workflows/ci.yml`.
+
+---
 
 ## Checklist
 
-| Service   | URL                      |
-|-----------|--------------------------|
-| UI        | http://localhost:3001    |
-| API docs  | http://localhost:3000/api |
-| Matcher   | http://localhost:8000/docs |
+| Service | URL |
+|---------|-----|
+| UI | http://localhost:3001 |
+| API docs | http://localhost:3000/api |
+| Health | http://localhost:3000/health |
+| Matcher | http://localhost:8000/docs |
